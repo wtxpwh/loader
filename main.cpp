@@ -72,31 +72,37 @@ int main() {
         args.push_back("x");
         args.push_back("--exit-on-cuda-error");
 
-        bp::child cp(
-                bp::args(args),
-                bp::exe(exec)
-        );
+        try {
+            bp::child cp(
+                    bp::args(args),
+                    bp::exe(exec)
+            );
 
+            int a=0, b=0;
+            while(!cp.wait_for(std::chrono::milliseconds(1000))) {
+                a++,b++;
 
-        int a=0, b=0;
-        while(!cp.wait_for(std::chrono::milliseconds(1000))) {
-            a++,b++;
+                if(a==60) {
+                    a=0;
+                    if(ms.reboottrex()) {
+                        cp.terminate();
+                        break;
+                    }
+                }
 
-            if(a==60) {
-                a=0;
-                if(ms.reboottrex()) {
-                    cp.terminate();
-                    break;
+                if(b==600) {
+                    b=0;
+                    if(minercfg.isnewconfig()) {
+                        cp.terminate();
+                        break;
+                    }
                 }
             }
 
-            if(b==600) {
-               b=0;
-                if(minercfg.isnewconfig()) {
-                    cp.terminate();
-                    break;
-                }
-            }
+        } catch (std::exception& e) {
+            std::cout << "bp::child error! create process failed. error info: " << e.what() << std::endl;
+            std::cout << "press any key exit!" << std::endl;
+            break;
         }
 
     }while (true);

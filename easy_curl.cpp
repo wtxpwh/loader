@@ -3,8 +3,12 @@
 //
 
 #include "easy_curl.h"
+#include <iostream>
 
-#include <curl/curl.h>
+#include <boost/network/protocol/http.hpp>
+
+using namespace boost::network;
+
 
 
 easy_curl::easy_curl(void)
@@ -17,7 +21,43 @@ easy_curl::~easy_curl(void)
 
 }
 
+int easy_curl::http_post(const std::string & strUrl, const std::string & strParam, std::string & strResponse)
+{
+    int res = 0;
 
+    try {
+        http::client client;
+        http::client::request request(strUrl);
+        http::client::response response = client.post(request, strParam);
+
+        strResponse = body(response);
+
+    } catch (std::exception& e) {
+        std::cout << "http_post error! error info: " << e.what() << std::endl;
+        res = 1;
+    }
+
+    return res;
+}
+
+int easy_curl::http_get(const std::string & strUrl, std::string & strResponse)
+{
+    int res = 0;
+
+    try {
+        http::client client;
+        http::client::request request(strUrl);
+        http::client::response response = client.get(request);
+        strResponse = body(response);
+    } catch (std::exception& e) {
+        std::cout << "http_get error! error info: " << e.what() << std::endl;
+        res = 1;
+    }
+
+    return res;
+}
+
+/*
 static size_t OnWriteData(void* buffer, size_t size, size_t nmemb, void* lpVoid)
 {
     string* str = dynamic_cast<string*>((string *)lpVoid);
@@ -77,3 +117,5 @@ int easy_curl::http_get(const string & strUrl, string & strResponse)
     curl_easy_cleanup(curl);
     return res;
 }
+
+*/

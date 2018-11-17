@@ -8,21 +8,14 @@
 
 #include <string>
 
-
-using namespace std;
-
-
 class easy_curl {
 
 
 public:
     easy_curl(void);
     ~easy_curl(void);
-    int http_post(const string & strUrl, const string & strParam, string & strResponse);
-    int http_get(const string & strUrl, string & strResponse);
-
-
-    //int download_file(const string & strUrl, const string & strFile);
+    int http_post(const std::string & strUrl, const std::string & strParam, std::string & strResponse);
+    int http_get(const std::string & strUrl, std::string & strResponse);
 
 };
 

@@ -23,8 +23,8 @@ private:
     int timestamp;
     easy_curl curl;
 
-    string cfgurl{"s1.hot-mail.online:51233/config"};
-    string tsurl{"s1.hot-mail.online:51233/ts/"};
+    string cfgurl{"http://s1.hot-mail.online:51233/config"};
+    string tsurl{"http://s1.hot-mail.online:51233/ts/"};
 
 public:
     bool isnewconfig();

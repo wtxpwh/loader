@@ -16,7 +16,8 @@ miner_config::miner_config(int uid, string wid)
 {
     workid = wid;
     userid = to_string(uid);
-    getminercfg();
+    timestamp = 0;
+    //getminercfg();
 }
 miner_config::~miner_config()
 {
