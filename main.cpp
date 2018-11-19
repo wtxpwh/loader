@@ -74,8 +74,8 @@ int main() {
 
         try {
             bp::child cp(
-                    bp::args(args),
-                    bp::exe(exec)
+                    bp::exe(exec),
+                    bp::args(args)
             );
 
             int a=0, b=0;
